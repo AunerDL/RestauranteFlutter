@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'pages/payment_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -62,9 +63,20 @@ class _ReservaScreenState extends State<ReservaScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (_selectedDay != null) {
-                      _agendarReserva(_selectedDay!);
+                      final result = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PaymentPage(
+                            selectedDate: _selectedDay!,
+                          ),
+                        ),
+                      );
+                      
+                      if (result == true) {
+                        _agendarReserva(_selectedDay!);
+                      }
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
@@ -73,7 +85,7 @@ class _ReservaScreenState extends State<ReservaScreen> {
                       );
                     }
                   },
-                  child: Text('Agendar Reserva'),
+                  child: Text('Proceder al Pago'),
                 ),
                 ElevatedButton(
                   onPressed: () {
